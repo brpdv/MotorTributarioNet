@@ -1,4 +1,4 @@
-﻿//                      Projeto: Motor Tributario                                                  
+//                      Projeto: Motor Tributario                                                  
 //          Biblioteca C# para Cálculos Tributários Do Brasil
 //                    NF-e, NFC-e, CT-e, SAT-Fiscal     
 //                                                                                                                                           
@@ -33,6 +33,7 @@ namespace MotorTributarioNet.Impostos.Csts
         public decimal ValorBcIcmsSt { get; private set; }
         public decimal PercentualIcmsSt { get; private set; }
         public decimal ValorIcmsSt { get; private set; }
+        public decimal ValorIcmsDesonerado { get; set; }
 
         public Cst30(OrigemMercadoria origemMercadoria = OrigemMercadoria.Nacional, TipoDesconto tipoDesconto = TipoDesconto.Incondicional) : base(origemMercadoria, tipoDesconto)
         {
@@ -53,6 +54,9 @@ namespace MotorTributarioNet.Impostos.Csts
 
             ValorBcIcmsSt = resultadoCalculoCofins.BaseCalculoIcmsSt;
             ValorIcmsSt = resultadoCalculoCofins.ValorIcmsSt;
+
+            var ret = facade.CalculaIcms();
+            ValorIcmsDesonerado = ((ret.BaseCalculo) * ((tributavel.PercentualFcp + tributavel.PercentualIcms) / 100));
         }
     }
 }
