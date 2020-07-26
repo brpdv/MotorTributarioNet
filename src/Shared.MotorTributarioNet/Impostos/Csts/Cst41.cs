@@ -1,4 +1,4 @@
-﻿//                      Projeto: Motor Tributario                                                  
+//                      Projeto: Motor Tributario                                                  
 //          Biblioteca C# para Cálculos Tributários Do Brasil
 //                    NF-e, NFC-e, CT-e, SAT-Fiscal     
 //                                                                                                                                           
@@ -18,6 +18,7 @@
 // Você também pode obter uma copia da licença em:                              
 // https://github.com/AutomacaoNet/MotorTributarioNet/blob/master/LICENSE      
 
+using MotorTributarioNet.Facade;
 using MotorTributarioNet.Flags;
 using MotorTributarioNet.Impostos.Csts.Base;
 
@@ -25,9 +26,19 @@ namespace MotorTributarioNet.Impostos.Csts
 {
     public class Cst41 : CstBase
     {
+        public MotivoDesoneracao MotivoDesoneracao { get; set; }
+        public decimal ValorIcmsDesonerado { get; set; }
+
         public Cst41(OrigemMercadoria origemMercadoria = OrigemMercadoria.Nacional, TipoDesconto tipoDesconto = TipoDesconto.Incondicional) : base(origemMercadoria, tipoDesconto)
         {
             Cst = Cst.Cst41;
+        }
+
+        public override void Calcula(ITributavel tributavel)
+        {
+            var facade = new FacadeCalculadoraTributacao(tributavel, TipoDesconto);
+            var ret = facade.CalculaIcms();
+            ValorIcmsDesonerado = ((ret.BaseCalculo) * ((tributavel.PercentualFcp + tributavel.PercentualIcms) / 100));
         }
     }
 }
