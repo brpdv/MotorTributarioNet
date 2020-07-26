@@ -1,4 +1,4 @@
-﻿//                      Projeto: Motor Tributario                                                  
+//                      Projeto: Motor Tributario                                                  
 //          Biblioteca C# para Cálculos Tributários Do Brasil
 //                    NF-e, NFC-e, CT-e, SAT-Fiscal     
 //                                                                                                                                           
@@ -171,6 +171,7 @@ namespace MotorTributarioNet.Impostos
                         ValorBcIcmsSt = ((Cst30)Icms).ValorBcIcmsSt;
                         PercentualIcmsSt = ((Cst30)Icms).PercentualIcmsSt;
                         ValorIcmsSt = ((Cst30)Icms).ValorIcmsSt;
+                        ValorIcmsDesonerado = ((Cst30)Icms).ValorIcmsDesonerado;
                         break;
                     case Cst.Cst40:
                         Icms = new Cst40();
@@ -180,10 +181,12 @@ namespace MotorTributarioNet.Impostos
                     case Cst.Cst41:
                         Icms = new Cst41();
                         Icms.Calcula(_produto);
+                        ValorIcmsDesonerado = ((Cst41)Icms).ValorIcmsDesonerado;
                         break;
                     case Cst.Cst50:
                         Icms = new Cst50();
                         Icms.Calcula(_produto);
+                        ValorIcmsDesonerado = ((Cst50)Icms).ValorIcmsDesonerado;
                         break;
                     case Cst.Cst51:
                         Icms = new Cst51();
