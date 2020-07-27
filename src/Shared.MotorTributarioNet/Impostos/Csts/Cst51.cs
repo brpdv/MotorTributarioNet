@@ -47,11 +47,13 @@ namespace MotorTributarioNet.Impostos.Csts
         {
             var result = new FacadeCalculadoraTributacao(tributavel, TipoDesconto).CalculaIcms();
             PercentualReducao = tributavel.PercentualReducao;
-            ValorBcIcms = result.BaseCalculo;
-            PercentualIcms = tributavel.PercentualIcms;
-            ValorIcmsOperacao = (ValorBcIcms * PercentualIcms) / 100;
             PercentualDiferimento = tributavel.PercentualDiferimento;
-            ValorIcmsDiferido = (PercentualDiferimento * ValorIcmsOperacao) / 100;
+            PercentualIcms = tributavel.PercentualIcms;
+
+            ValorBcIcms = result.BaseCalculo;
+            ValorIcmsDiferido = ValorBcIcms / (100 - PercentualIcms) * PercentualIcms;
+            ValorBcIcms += ValorIcmsDiferido;
+            ValorIcmsOperacao = (ValorBcIcms * PercentualIcms) / 100;
             ValorIcms = ValorIcmsOperacao - ValorIcmsDiferido;
         }
     }
